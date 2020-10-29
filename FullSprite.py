@@ -20,6 +20,9 @@ class FullSprite (pygame.sprite.Sprite)
 			  ang_vel = 0, #angular velocity (degrees per frame)
 			  ang_acc = 0, #angular acceleration (degrees per frame per frame)
 
+		visible  = True,
+		tangible = True,
+
 		#Groups to which the sprite belongs
 		groups = []
 	):
