@@ -4,6 +4,7 @@
 	defines the Scene class, which has an array of Sprite Groups.
 """
 import pygame
+import Engine.FullSprite
 
 class Scene (object):
 	#initialize game engine
@@ -29,6 +30,8 @@ class Scene (object):
 		else:
 			self.background = img
 
+		self.start()
+
 	#end __init__()
 
 	#beginning of the loop
@@ -43,7 +46,7 @@ class Scene (object):
 	def __mainLoop():
 		self.clock.tick(30)
 
-		for event in pygame.event.get()
+		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				self.go = False
 			self.doEvents(event)
@@ -64,4 +67,4 @@ class Scene (object):
 
 #end class Scene
 
-mysprite = FullSprite (velocity = (5, 5)); 
+#mysprite = FullSprite (velocity = (5, 5)); 
