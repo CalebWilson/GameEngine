@@ -1,12 +1,11 @@
+"""
+	Scene.py
+
+	defines the Scene class, which has an array of Sprite Groups.
+"""
 import pygame
 
 class Scene (object):
-	"""
-		The stage on which Sprites act.
-
-		Contains array of Sprites.
-	"""
-
 	#initialize game engine
 	def __init__ (self,
 		#full background image
@@ -59,9 +58,10 @@ class Scene (object):
 	
 	#end def __mainLoop()
 
-	#update and redraw sprites; collision detection
+	#misc
 	def update():
 		pass
 
+#end class Scene
 
-
+mysprite = FullSprite (velocity = (5, 5)); 
