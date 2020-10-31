@@ -4,7 +4,7 @@
 	defines the Scene class, which has an array of Sprite Groups.
 """
 import pygame
-import Engine.FullSprite
+import FullSprite
 
 class Scene (object):
 	#initialize game engine

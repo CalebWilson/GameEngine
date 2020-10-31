@@ -5,7 +5,7 @@
 	of pygame.sprite.Sprite
 """
 import pygame
-import Engine.Scene
+import Scene
 
 #rename vector class
 Vector = pygame.math.Vector2
