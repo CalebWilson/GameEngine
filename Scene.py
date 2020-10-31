@@ -10,7 +10,7 @@ class Scene (object):
 	#initialize game engine
 	def __init__ (self,
 		#full background image
-		img = "",
+		image = "",
 
 		#screensize
 		screen_size = (640, 480),
@@ -24,11 +24,11 @@ class Scene (object):
 		screen = pygame.display.set_mode (screen_size)
 
 		#initialize background
-		if img == "":
+		if image == "":
 			self.background = pygame.Surface (screen_size)
 			self.background.fill ((0, 0, 0))
 		else:
-			self.background = img
+			self.background = image
 
 		self.start()
 

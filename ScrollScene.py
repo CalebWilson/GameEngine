@@ -11,7 +11,7 @@ class ScrollScene (object):
 		#full background image
 		image = "",
 
-		#screensize
+		#screen
 		screen_size = (640, 480),
 
 		#sprite groups in the scene
@@ -21,20 +21,47 @@ class ScrollScene (object):
 		fs_image = "",
 		fs_pos = (0, 0),
 		fs_vel = (0, 0),
-		vs_acc = (0, 0),
-		vs_ang_pos = 0,
-		vs_ang_vel = 0,
-		vs_ang_acc = 0,
+		fs_acc = (0, 0),
+		fs_ang_pos = 0,
+		fs_ang_vel = 0,
+		fs_ang_acc = 0,
 		fs_groups = []
-	):
-		#initialize parent class
-		super().__init__(image, screen_size, groups[])
+
+		#how close the focus sprite can get to the edge of the screen
+		focus_distance = (screen_size[x] // 5, screen_size[y] // 5)):
+		pygame.init()
+
+		#initialize focus sprite
+		self.focus_sprite = FullSprite (
+			fs_image,
+			fs_pos,
+			fs_vel,
+			fs_acc,
+			fs_ang_pos,
+			fs_ang_vel,
+			fs_ang_acc,
+			fs_groups
+		);
+
+		#initialize screen velocity to be subtracted from sprites
+		velocity = Vector()
 
 	#end __init__()
 
-	#misc
+	#boundary management
 	def update():
-		pass
+		#for each dimension
+		for i in range(2):
+			if self.focus_sprite.rect.center[i] <= focus_distance[i]:
+				self.focus_sprite.rect.center = focus_distance[i]
+				self.velocity[i] = self.focus_sprite.velocity[i]
+			else:
+				self.velocity[i] = 0
+
+		#end for each dimension
+	
+	#end def update()
+
 
 #end class Scene
 
