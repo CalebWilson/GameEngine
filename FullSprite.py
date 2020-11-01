@@ -96,8 +96,14 @@ class FullSprite (pygame.sprite.Sprite):
 			if self.rect.center < 0 or self.rect.center[i] > scene.screen_size[i]:
 				hit_bounds[i] = True
 
+		#end for each dimesion
+
 		return hit_bounds
 
 	#end def bounds_check()
+
+	#boundary behavior
+	def boundary():
+		pass
 
 #end class FullSprite

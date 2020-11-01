@@ -9,6 +9,11 @@ import Engine.ScrollScene
 
 class ScrollSprite (FullSprite)
 	def __init__ (self,
+
+		#Scene on which the sprite will be rendered
+		#no default value; sprites must be provided a Scene
+		scene
+
 		#image
 		image = "",
 
@@ -28,10 +33,6 @@ class ScrollSprite (FullSprite)
 		#Groups to which the sprite belongs
 		groups = [],
 
-		#Scene on which the sprite will be rendered
-		#no default value; sprites must be provided a Scene
-		scene
-
 		#how close the sprite can get to the edge of the screen before the
 		#scrolling behavior activates
 	):
@@ -43,10 +44,29 @@ class ScrollSprite (FullSprite)
 			visible, tangible,
 			groups, scene)
 		
-	#boundary behavior: scroll
+	"""
+		No action is required when a Sprite hits a boundary here, because the Sprite
+		is either the focus sprite of the ScrollScene, and will therefore never
+		touch the boundary, or it is just another sprite, and will therefore
+		continue and not care if it hits the boundary. The scrolling behavior is
+		instead implemented in the update() function by subtracting the
+		ScrollScene's velocity (equal to the focus sprite's velocity when it is near
+		the boundary and 0 otherwise) from the positions of all ScrollSprites on
+		every frame.
+	"""
 	def boundary():
-		self.position -= scene.velocity
+		pass
 
 	#end def boundary()
+
+	#account for normal kinematics as well as ScrollScene velocity
+	def update():
+		super().update()
+		self.position -= scene.velocity
+		self.rect.center = (self.position.x, self.position.y)
+
+	#handle events received from ScrollScene
+	def handle_event (event):
+		pass
 
 #end class WrapSprite

@@ -1,25 +1,27 @@
 """
-	ScrollScene.py
+	Track.py
 
-	defines the ScrollScene class, which is a subclass of
-	Scene that scrolls to track a primary Sprite.
+	defines the Track class, which is a subclass of
+	ScrollScene modified for the race game.
 """
 
-class ScrollScene (object):
+import ScrollScene
+
+class Track (ScrollScene):
 	#initialize game engine
 	def __init__ (self,
 		#full background image
-		image = "",
+		image = "Track.png",
 
 		#screen
-		screen_size = (640, 480),
+		screen_size = (640, 640),
 
 		#sprite groups in the scene
 		groups = [],
 
 		#focus sprite to track
-		fs_image = "",
-		fs_pos = (0, 0),
+		fs_image = "Car.png",
+		fs_pos = (320, 480),
 		fs_vel = (0, 0),
 		fs_acc = (0, 0),
 		fs_ang_pos = 0,
@@ -34,7 +36,7 @@ class ScrollScene (object):
 		focus_distance = (screen_size[x] // 5, screen_size[y] // 5)):
 
 		#initialize focus sprite
-		self.focus_sprite = ScrollSprite (
+		self.focus_sprite = Car (
 			fs_image,
 			fs_pos,
 			fs_vel,
@@ -52,23 +54,22 @@ class ScrollScene (object):
 
 	#boundary management
 	def update():
-		#for each dimension
-		for i in range(2):
-			if self.focus_sprite.rect.center[i] <= focus_distance[i]:
-				self.focus_sprite.rect.center = focus_distance[i]
-				self.velocity[i] = self.focus_sprite.velocity[i]
-			else:
-				self.velocity[i] = 0
+		#run normal update code
+		super().update()
 
-		#end for each dimension
-	
+		#find collisions
+		collisions = self.detect_collisions()
+
+		#detect and resolve collisions
+		for collision in collisions:
+			collide (collision)
+
 	#end def update()
 
-	#pass event handling to focus sprite
-	def handle_event (event):
-		self.focus_sprite.handle_event (event)
+	def collide ((car, wall)):
+		#kill the car
+		car.die()
 
-	#end def handle_event()
-
+	#end def collide()
 
 #end class Scene
