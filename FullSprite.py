@@ -23,8 +23,7 @@ class FullSprite (pygame.sprite.Sprite):
 			#image
 			image = "",
 
-			#kinematics
-			#these will accept any type that can be accepted by the Vector2 constructor
+			#kinematics accept any type accepted by the Vector2 constructor
 			position     = (0, 0),
 			velocity     = (0, 0),
 			acceleration = (0, 0),
@@ -41,7 +40,7 @@ class FullSprite (pygame.sprite.Sprite):
 	):
 		#initialize parent class
 		pygame.sprite.Sprite.__init__(self)
-		
+
 		#source master copy of image
 		if image == "":
 			#default sprite image is a white box
@@ -49,7 +48,7 @@ class FullSprite (pygame.sprite.Sprite):
 			self.master_image.fill ((255, 255, 255))
 		else:
 			self.master_image = image
-		
+
 		#initialize viewable image
 		self.image = self.master_image
 

@@ -11,7 +11,7 @@ class Track (ScrollScene):
 	#initialize game engine
 	def __init__ (self,
 		#full background image
-		image = "Track.png",
+		image = "",
 
 		#screen
 		screen_size = (640, 640),
@@ -27,13 +27,14 @@ class Track (ScrollScene):
 		fs_ang_pos = 0,
 		fs_ang_vel = 0,
 		fs_ang_acc = 0,
-		fs_groups = []
+		fs_groups = [],
+
+		#how close the focus sprite can get to the edge of the screen
+		focus_distance = (screen_size[x] // 5, screen_size[y] // 5)
+	):
 
 		#initialize parent class
 		super().__init__(image, screen_size, groups)
-
-		#how close the focus sprite can get to the edge of the screen
-		focus_distance = (screen_size[x] // 5, screen_size[y] // 5)):
 
 		#initialize focus sprite
 		self.focus_sprite = Car (
@@ -66,6 +67,7 @@ class Track (ScrollScene):
 
 	#end def update()
 
+	#if the car hits the wall
 	def collide ((car, wall)):
 		#kill the car
 		car.die()

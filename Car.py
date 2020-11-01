@@ -60,10 +60,17 @@ class Car (ScrollSprite)
 		self.forward  = 0 #accelerate forwards
 		self.backward = 0 #decelerate backwards
 
+		#whether the car will accept inputs
+		self.alive = True
+
 	#end def __init__()
 
 	#respond to inputs
 	def update():
+		#don't do anything if car is dead
+		if not self.alive:
+			return
+
 		#turning: omega = v / r
 		self.ang_vel  = self.velocity.magnitude() / turn_rad #magnitude
 		self.ang_vel *= (self.right - self.left) #direction
@@ -91,11 +98,12 @@ class Car (ScrollSprite)
 		#restrict speed
 		if self.velocity.magnitude() > self.max_speed:
 			self.velocity.scale_to_length (self.max_speed)
-	
+
 	#end def up update()
 
 	#handle inputs
 	def handle_event (event):
+		if
 		#if a key is pressed, set its value to 1
 		if event.event_name == "KEYDOWN":
 			#k
@@ -132,4 +140,9 @@ class Car (ScrollSprite)
 
 	#end def handle_event()
 
-#end class WrapSprite
+	#destroy car when it hits something
+	def die():
+		self.alive = False
+		self.image = pygame.image.load ("blast.png")
+
+#end class Car

@@ -12,7 +12,7 @@ class ScrollSprite (FullSprite)
 
 		#Scene on which the sprite will be rendered
 		#no default value; sprites must be provided a Scene
-		scene,
+		scene
 
 		#image
 		image = "",
@@ -31,7 +31,7 @@ class ScrollSprite (FullSprite)
 		tangible = True,
 
 		#Groups to which the sprite belongs
-		groups = []
+		groups = [],
 
 		#how close the sprite can get to the edge of the screen before the
 		#scrolling behavior activates
@@ -69,4 +69,4 @@ class ScrollSprite (FullSprite)
 	def handle_event (event):
 		pass
 
-#end class ScrollSprite
+#end class WrapSprite
