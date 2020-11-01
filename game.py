@@ -1,125 +1,75 @@
-import Track
-import Car
+import pygame
 
+from Track import Track
+from Car import Car
+
+#establish groups
 cars  = pygame.sprite.Group()
 roads = pygame.sprite.Group()
 walls = pygame.sprite.Group()
 
-track = Track (
-	image = pygame.image.load("Track.png"),
-	screen_size = (640, 640),
-	fs_image = pygame.image.load("Car.png"), 
-	fs_pos = (320, 160), #other kinematics left at 0
-	fs_groups = [cars]
-)
+#create scene
+#Track constructor automatically creates car with default argument values
+track = Track (fs_groups = [cars])
 
 #add car to cars
 cars.add (track.focus_sprite)
 
-#add elbow roads
-roads.add (
-	[
-		#upper left elbow
-		ScrollSprite (
-			scene = track,
-			image = pygame.image.load ("ElbowRoad.png"),
-			position = ,#TODO:insert position here
-			ang_pos = 0,
-			tangible = False,
-			groups = [roads]
-		),
-
-		#upper right elbow
-		ScrollSprite (
-			scene = track,
-			image = pygame.image.load ("ElbowRoad.png"),
-			position = ,#TODO:insert position here
-			ang_pos = 90,
-			tangible = False,
-			groups = [roads]
-		),
-
-		#bottom right elbow
-		ScrollSprite (
-			scene = track,
-			image = pygame.image.load ("ElbowRoad.png"),
-			position = ,#TODO:insert position here
-			ang_pos = 180,
-			tangible = False,
-			groups = [roads]
-		),
-
-		#bottom left elbow
-		ScrollSprite (
-			scene = track,
-			image = pygame.image.load ("ElbowRoad.png"),
-			position = ,#TODO:insert position here
-			ang_pos = 270,
-			tangible = False,
-			groups = [roads]
-		),
-	]
-) #end roads.add()
-
-#add top roads
-for i in range(): #TODO:insert width here
+#add roads
+def add_road (x, y, angle, image_name):
 	roads.add (
 		ScrollSprite (
 			scene = track,
-			image = pygame.image.load ("StraightRoad.png"),
-			position = + ( * i) #TODO:insert initial position and image width
-			ang_pos = 0,
+			image = pygame.image.load (image_name),
+			position = (x, y),
+			ang_pos = angle,
 			tangible = False,
 			groups = [roads]
-		)
-	) #end roads.add
+		) #end ScrollSprite()
+	) #end roads.add()
+#end def add_road()
 
-#end for each top road
+#elbows
+add_road (-80, 200,   0, "ElbowRoad.png") #upper  left
+add_road (720, 200,  90, "ElbowRoad.png") #upper  right
+add_road (720, 680, 180, "ElbowRoad.png") #bottom right
+add_road (-80, 680, 270, "ElbowRoad.png") #bottom left
 
-#add bottom roads
-for i in range(): #TODO:insert width here
-	roads.add (
+#straights
+#horizontal
+for i in range(4):
+	add_road (80 + (160 * i), 160, 0, "StraightRoad.png") #top
+	add_road (80 + (160 * i), 720, 0, "StraightRoad.png") #bottom
+
+#vertical
+for i in range(2):
+	add_road (-120, 360 + (160 * i), 90, "StraightRoad.png") #left
+	add_road ( 760, 360 + (160 * i), 90, "StraightRoad.png") #right
+
+#add walls
+def add_wall (dimensions, center):
+	walls.add (
 		ScrollSprite (
 			scene = track,
-			image = pygame.image.load ("StraightRoad.png"),
-			position = + ( * i) #TODO:insert initial position and image width
-			ang_pos = 0,
-			tangible = False,
-			groups = [roads]
-		)
-	) #end roads.add
+			image = pygame.Surface (dimensions),
+			position = center,
+			tangible = True,
+			groups = [walls]
+		) #end ScrollSprite
+	) #end walls.add
+#end def add_wall
 
-#end for each bottom road
+add_wall ((1440, 80),  (320, -80)) #top
+add_wall ((1440, 80),  (320, 960)) #bottom
+add_wall ((80, 1120), (-360, 440)) #left
+add_wall ((80, 1120), (1000, 440)) #right
 
-#add left roads
-for i in range(): #TODO:insert height here
-	roads.add (
-		ScrollSprite (
-			scene = track,
-			image = pygame.image.load ("StraightRoad.png"),
-			position = + ( * i) #TODO:insert initial position and image width
-			ang_pos = 90,
-			tangible = False,
-			groups = [roads]
-		)
-	) #end roads.add
+#paint walls black
+for wall in walls:
+	wall.image.fill((0, 0, 0))
 
-#end for each left road
+#add groups to track
+track.groups = [cars, roads, walls]
 
-#add right roads
-for i in range(): #TODO:insert height here
-	roads.add (
-		ScrollSprite (
-			scene = track,
-			image = pygame.image.load ("StraightRoad.png"),
-			position = + ( * i) #TODO:insert initial position and image width
-			ang_pos = 90,
-			tangible = False,
-			groups = [roads]
-		)
-	) #end roads.add
-
-#end for each right road
-
-#add top wall
-
+#begin the game
+track.start()

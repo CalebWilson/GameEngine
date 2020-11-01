@@ -7,28 +7,29 @@
 
 class WrapSprite (FullSprite)
 	def __init__ (self,
-		#image
-		image = "",
 
-		#kinematics
-		#these will accept any type that can be accepted by the Vector2 constructor
-		position     = (0, 0),
-		velocity     = (0, 0),
-		acceleration = (0, 0),
+			#Scene on which the sprite will be rendered
+			#no default value; sprites must be provided a Scene
+			scene,
 
-		ang_pos = 0, #angular position (degrees)
-		ang_vel = 0, #angular velocity (degrees per frame)
-		ang_acc = 0, #angular acceleration (degrees per frame per frame)
+			#image
+			image = "",
 
-		visible  = True,
-		tangible = True,
+			#kinematics
+			#these will accept any type that can be accepted by the Vector2 constructor
+			position     = (0, 0),
+			velocity     = (0, 0),
+			acceleration = (0, 0),
 
-		#Groups to which the sprite belongs
-		groups = [],
+			ang_pos = 0, #angular position (degrees)
+			ang_vel = 0, #angular velocity (degrees per frame)
+			ang_acc = 0, #angular acceleration (degrees per frame per frame)
 
-		#Scene on which the sprite will be rendered
-		#no default value; sprites must be provided a Scene
-		scene
+			visible  = True,
+			tangible = True,
+
+			#Groups to which the sprite belongs
+			groups = []
 	):
 		#initialize parent class
 		super().__init__(self,

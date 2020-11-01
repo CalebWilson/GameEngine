@@ -4,34 +4,36 @@
 	defines the ScrollScene class, which is a subclass of
 	Scene that scrolls to track a primary Sprite.
 """
+from Scene import Scene
 
-class ScrollScene (object):
+class ScrollScene (Scene):
 	#initialize game engine
 	def __init__ (self,
-		#full background image
-		image = "",
 
-		#screen
-		screen_size = (640, 480),
+			#full background image
+			image = "",
 
-		#sprite groups in the scene
-		groups = [],
+			#screen
+			screen_size = (640, 480),
 
-		#focus sprite to track
-		fs_image = "",
-		fs_pos = (0, 0),
-		fs_vel = (0, 0),
-		fs_acc = (0, 0),
-		fs_ang_pos = 0,
-		fs_ang_vel = 0,
-		fs_ang_acc = 0,
-		fs_groups = []
+			#sprite groups in the scene
+			groups = [],
 
+			#focus sprite to track
+			fs_image = "",
+			fs_pos = (0, 0),
+			fs_vel = (0, 0),
+			fs_acc = (0, 0),
+			fs_ang_pos = 0,
+			fs_ang_vel = 0,
+			fs_ang_acc = 0,
+			fs_groups = []
+	):
 		#initialize parent class
 		super().__init__(image, screen_size, groups)
 
 		#how close the focus sprite can get to the edge of the screen
-		focus_distance = (screen_size[x] // 5, screen_size[y] // 5)):
+		focus_distance = (screen_size[x] // 5, screen_size[y] // 5)
 
 		#initialize focus sprite
 		self.focus_sprite = ScrollSprite (

@@ -16,6 +16,7 @@ Y = 1
 
 class FullSprite (pygame.sprite.Sprite):
 	def __init__ (self,
+
 			#Scene on which the sprite will be rendered
 			#no default value; sprites must be provided a Scene
 			scene,

@@ -5,38 +5,37 @@
 	ScrollSprite
 """
 
-import Engine.ScrollSprite
+from ScrollSprite import ScrollSprite
 
-class Car (ScrollSprite)
+class Car (ScrollSprite):
 	def __init__ (self,
 
-		#Scene on which the sprite will be rendered
-		#no default value; sprites must be provided a Scene
-		scene,
+			#Scene on which the sprite will be rendered
+			#no default value; sprites must be provided a Scene
+			scene,
 
-		#image
-		image = "Car.py",
+			#image
+			image = "Car.py",
 
-		#kinematics
-		#these will accept any type that can be accepted by the Vector2 constructor
-		position     = (0, 0),
-		velocity     = (0, 0),
-		acceleration = (0, 0),
+			#kinematics accept any type accepted by Vector2 constructor
+			position     = (0, 0),
+			velocity     = (0, 0),
+			acceleration = (0, 0),
 
-		ang_pos = -90, #angular position (degrees)
-		ang_vel =   0, #angular velocity (degrees per frame)
-		ang_acc =   0, #angular acceleration (degrees per frame per frame)
+			ang_pos = -90, #angular position (degrees)
+			ang_vel =   0, #angular velocity (degrees per frame)
+			ang_acc =   0, #angular acceleration (degrees per frame per frame)
 
-		visible  = True,
-		tangible = True,
+			visible  = True,
+			tangible = True,
 
-		#Groups to which the sprite belongs
-		groups = [],
+			#Groups to which the sprite belongs
+			groups = [],
 
-		#Car specs
-		max_acc   =  1, #how fast the car speeds up (pixels per frame per frame)
-		max_speed = 20, #fastest speed the car can go
-		turn_rad  = 20, #turning radius
+			#Car specs
+			max_acc   =  1, #how fast the car speeds up (pixels per frame per frame)
+			max_speed = 20, #fastest speed the car can go
+			turn_rad  = 20, #turning radius
 
 	): #how I feel right now trying to make this work
 
@@ -103,7 +102,6 @@ class Car (ScrollSprite)
 
 	#handle inputs
 	def handle_event (event):
-		if
 		#if a key is pressed, set its value to 1
 		if event.event_name == "KEYDOWN":
 			#k

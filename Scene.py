@@ -12,26 +12,26 @@ MPF = 40
 class Scene (object):
 	#initialize game engine
 	def __init__ (self,
-		#full background image
-		image = "",
 
-		#screensize
-		screen_size = (640, 480),
+			#full background image
+			image = "",
 
-		#sprite groups in the scene
-		"""
-			The order in which Groups are added may have some significance,
-			depending on your implementation of collide(), as detect_collisions()
-			returns a list of tuples of colliding FullSprites wherein the FullSprite
-			belonging to the Group added earlier is element 0 and the FullSprite
-			belonging to the Group added later is element 1.
-		"""
-		groups = [],
+			#screensize
+			screen_size = (640, 480),
+
+			#sprite groups in the scene
+			#
+			#The order in which Groups are added may have some significance,
+			#depending on your implementation of collide(), as detect_collisions()
+			#returns a list of tuples of colliding FullSprites wherein the
+			#FullSprite belonging to the Group added earlier is element 0 and the
+			#FullSprite belonging to the Group added later is element 1.
+			groups = [],
 	):
 		pygame.init()
 
 		#initialize screen
-		screen = pygame.display.set_mode (screen_size)
+		screen = "",
 
 		#initialize background
 		if image == "":
@@ -45,7 +45,7 @@ class Scene (object):
 	#end __init__()
 
 	#beginning of the loop
-	def start():
+	def start (self):
 		self.screen.blit (self.background, (0, 0))
 		self.clock = pygame.time.Clock()
 		self.go = True
