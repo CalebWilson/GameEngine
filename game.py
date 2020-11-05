@@ -2,6 +2,7 @@ import pygame
 
 from Track import Track
 from Car import Car
+from ScrollSprite import ScrollSprite
 
 #establish groups
 cars  = pygame.sprite.Group()
@@ -69,7 +70,7 @@ for wall in walls:
 	wall.image.fill((0, 0, 0))
 
 #add groups to track
-track.groups = [cars, roads, walls]
+track.groups = [roads, cars, walls]
 
 #begin the game
 track.start()

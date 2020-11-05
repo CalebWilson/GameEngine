@@ -6,8 +6,8 @@
 import pygame
 import FullSprite
 
-#define framerate in milliseconds per frame
-MPF = 40
+#define framerate in frames per second
+FPS = 50
 
 class Scene (object):
 	#initialize game engine
@@ -31,16 +31,15 @@ class Scene (object):
 		pygame.init()
 
 		#initialize screen
-		screen = "",
+		self.screen = pygame.display.set_mode(screen_size)
 
 		#initialize background
 		if image == "":
+			print ("No image")	
 			self.background = pygame.Surface (screen_size)
 			self.background.fill ((0, 0, 0))
 		else:
 			self.background = image
-
-		self.start()
 
 	#end __init__()
 
@@ -53,8 +52,8 @@ class Scene (object):
 			self.__mainLoop()
 
 	#game loop
-	def __mainLoop():
-		self.clock.tick(MPF) #milliseconds per frame
+	def __mainLoop (self):
+		self.clock.tick(FPS) #milliseconds per frame
 
 		#handle events
 		for event in pygame.event.get():
@@ -77,11 +76,11 @@ class Scene (object):
 	#end def __mainLoop()
 
 	#misc
-	def update():
+	def update (self):
 		pass
 
 	#detect collisions
-	def detect_collisions():
+	def detect_collisions (self):
 
 		#list of tuples containing colliding sprites
 		collisions = []
@@ -89,24 +88,21 @@ class Scene (object):
 		#for each group
 		for group in range(len(self.groups)):
 			#for each sprite in the group
-			for sprite in range(len(self.groups[group])):
+			for sprite in self.groups[group]:
 				#if the sprite is tangible
-				if self.groups[group][sprite].tangible:
+				if sprite.tangible:
 					#for the rest of the groups
 					for other_group in range(group + 1, len(self.groups)):
 						#if the sprite is not also in that group
-						if self.groups[group][sprite] not in self.groups[other_group]:
+						if sprite not in self.groups[other_group]:
 							#for each other sprite
-							for other_sprite in range(len(self.groups[other_group])):
+							for other_sprite in self.groups[other_group]:
 								#if the other sprite is tangible
-								if self.groups[other_group][other_sprite].tangible:
+								if other_sprite.tangible:
 									#if the sprites' bounding rectangles intersect
 									if sprite.rect.colliderect (other_sprite.rect):
 										#add the collision to the list
-										collisions.append (
-											(self.groups[group][sprite],
-												self.groups[other_group][other_sprite])
-										)
+										collisions.append ((sprite, other_sprite))
 		#end for each group
 
 		return collisions
@@ -114,11 +110,11 @@ class Scene (object):
 	#end def detect_collisions()
 
 	#resolve collisions
-	def collide (sprite1, sprite2):
+	def collide (self, sprite1, sprite2):
 		pass
 
 	#event handler
-	def handle_event (event):
+	def handle_event (self, event):
 		pass
 
 #end class Scene

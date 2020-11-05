@@ -5,7 +5,6 @@
 	FullSprite with a scrolling boundary behavior
 """
 
-from ScrollScene import ScrollScene
 from FullSprite  import FullSprite
 
 class ScrollSprite (FullSprite):
@@ -34,13 +33,17 @@ class ScrollSprite (FullSprite):
 			#Groups to which the sprite belongs
 			groups = []
 	):
+
 		#initialize parent class
-		super().__init__(self,
+		super().__init__ (
+			scene,
 			image,
 			position, velocity, acceleration,
 			ang_pos, ang_vel, ang_acc,
 			visible, tangible,
-			groups, scene)
+			groups)
+	
+	#end def __init__()
 		
 	"""
 		No action is required when a Sprite hits a boundary here, because the Sprite
@@ -52,15 +55,15 @@ class ScrollSprite (FullSprite):
 		the boundary and 0 otherwise) from the positions of all ScrollSprites on
 		every frame.
 	"""
-	def boundary():
+	def boundary (self):
 		pass
 
 	#end def boundary()
 
 	#account for normal kinematics as well as ScrollScene velocity
-	def update():
+	def update (self):
 		super().update()
-		self.position -= scene.velocity
+		self.position -= self.scene.velocity
 		self.rect.center = (self.position.x, self.position.y)
 
 	#handle events received from ScrollScene

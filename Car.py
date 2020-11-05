@@ -6,6 +6,8 @@
 """
 
 from ScrollSprite import ScrollSprite
+import pygame
+import math #degrees()
 
 class Car (ScrollSprite):
 	def __init__ (self,
@@ -15,7 +17,7 @@ class Car (ScrollSprite):
 			scene,
 
 			#image
-			image = "Car.py",
+			image = pygame.image.load ("Car.png"),
 
 			#kinematics accept any type accepted by Vector2 constructor
 			position     = (0, 0),
@@ -33,14 +35,14 @@ class Car (ScrollSprite):
 			groups = [],
 
 			#Car specs
-			max_acc   =  1, #how fast the car speeds up (pixels per frame per frame)
-			max_speed = 20, #fastest speed the car can go
-			turn_rad  = 20, #turning radius
+			max_acc   = 0.05, #how fast the car speeds up (pixels per frame per frame)
+			max_speed = 5, #fastest speed the car can go
+			turn_rad  = 40, #turning radius
 
 	): #how I feel right now trying to make this work
 
 		#initialize parent class
-		super().__init__(self,
+		super().__init__ (
 			scene,
 			image,
 			position, velocity, acceleration,
@@ -59,33 +61,40 @@ class Car (ScrollSprite):
 		self.forward  = 0 #accelerate forwards
 		self.backward = 0 #decelerate backwards
 
-		#whether the car will accept inputs
+		#Car specs
+		self.max_acc   = max_acc
+		self.max_speed = max_speed
+		self.turn_rad  = turn_rad
+
+		#whether the car is alive to accept inputs
 		self.alive = True
 
 	#end def __init__()
 
 	#respond to inputs
-	def update():
+	def update(self):
 		#don't do anything if car is dead
 		if not self.alive:
 			return
 
 		#turning: omega = v / r
-		self.ang_vel  = self.velocity.magnitude() / turn_rad #magnitude
+		self.ang_vel  = math.degrees (self.velocity.magnitude() / self.turn_rad) #magnitude
 		self.ang_vel *= (self.right - self.left) #direction
 
 		#tangential acceleration = acceleration in direction of motion
-		tangent_acc = Vector()
+		tangent_acc = pygame.math.Vector2()
 		tangent_acc.from_polar (
-			(max_acc * (self.forward - self.backward), #magnitude
+			(self.max_acc * (self.forward - self.backward), #magnitude
 			self.ang_pos) #direction
 		)
 
 		#centripetal acceleration = v^2 / r, perpendicular to direction of motion
-		centrip_acc = Vector()
+		centrip_acc = pygame.math.Vector2()
 		centrip_acc.from_polar (
-			(self.velocity.magnitude_squared() / turn_rad,  #magnitude
-			self.ang_pos + (90 * (self.right - self.left))) #direction
+			(self.velocity.magnitude_squared()
+				/ self.turn_rad
+				* (self.right - self.left),  #magnitude
+			self.ang_pos + 90) #direction
 		)
 
 		#combine tangential and centripetal acceleration
@@ -98,40 +107,51 @@ class Car (ScrollSprite):
 		if self.velocity.magnitude() > self.max_speed:
 			self.velocity.scale_to_length (self.max_speed)
 
+		print ("position:", self.position)
+		print ("velocity:", self.velocity)
+		print ("tan_acc:", tangent_acc)
+		print ("centrip_acc:", centrip_acc)
+		print ("acceleration:", self.acceleration)
+		print ("ang_pos:", self.ang_pos)
+		print ("ang_vel:", self.ang_vel)
+		print ("ang_acc:", self.ang_acc)
+
 	#end def up update()
 
 	#handle inputs
-	def handle_event (event):
+	def handle_event (self, event):
 		#if a key is pressed, set its value to 1
-		if event.event_name == "KEYDOWN":
+		if event.type == pygame.KEYDOWN:
+			print(event.key, "down")
 			#k
-			if event.key == "K_k":
+			if event.key == 107:
 				self.forward = 1
 			#j
-			elif event.key == "K_j":
+			elif event.key == 106:
 				self.backward = 1
 			#f
-			elif event.key == "K_f":
+			elif event.key == 102:
 				self.right = 1
 			#d
-			elif event.key == "K_d":
+			elif event.key == 100:
 				self.left = 1
 
 		#end if a key is pressed
 
 		#if a key is released, set its value to 0
-		elif event.event_name == "KEYUP":
+		elif event.type == pygame.KEYUP:
+			print(event.key, "up")
 			#k
-			if event.key == "K_k":
+			if event.key == 107:
 				self.forward = 0
 			#j
-			elif event.key == "K_j":
+			elif event.key == 106:
 				self.backward = 0
 			#f
-			elif event.key == "K_f":
+			elif event.key == 102:
 				self.right = 0
 			#d
-			elif event.key == "K_d":
+			elif event.key == 100:
 				self.left = 0
 
 		#end if a key is released
@@ -139,8 +159,8 @@ class Car (ScrollSprite):
 	#end def handle_event()
 
 	#destroy car when it hits something
-	def die():
-		self.alive = False
-		self.image = pygame.image.load ("blast.png")
+	def die (self):
+#		self.alive = False
+		pass
 
 #end class Car

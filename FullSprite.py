@@ -39,6 +39,9 @@ class FullSprite (pygame.sprite.Sprite):
 			#Groups to which the sprite belongs
 			groups = [],
 	):
+		#scene
+		self.scene = scene
+
 		#initialize parent class
 		pygame.sprite.Sprite.__init__(self)
 
@@ -48,6 +51,7 @@ class FullSprite (pygame.sprite.Sprite):
 			self.master_image = pygame.Surface ((25, 25))
 			self.master_image.fill ((255, 255, 255))
 		else:
+			print ("FullSprite.py:", image)
 			self.master_image = image
 
 		#initialize viewable image
@@ -64,22 +68,26 @@ class FullSprite (pygame.sprite.Sprite):
 		#hitbox
 		self.rect = self.image.get_rect()
 		self.rect.center = (self.position.x, self.position.y)
+		self.visible  = visible
+		self.tangible = tangible
 
 	#end def __init__()
 
 	#update sprite for next frame
-	def update():
+	def update (self):
 		#update kinematics
 		self.velocity += self.acceleration
 		self.position += self.velocity
 		self.rect.center = (self.position.x, self.position.y)
 
-		self.ang_vel  += self.ang_acc
-		self.ang_pos  += self.ang_vel
+		self.ang_vel += self.ang_acc
+		self.ang_pos += self.ang_vel
+		self.ang_vel %= 360
+		self.ang_pos %= 360
 
 		#update orientation
 		og_center = self.rect.center #save original center
-		self.image = transform.rotate (self.master_image, self.ang_pos) #rotate
+		self.image = pygame.transform.rotate (self.master_image, -1 *self.ang_pos) #rotate
 		self.rect = self.image.get_rect(center = og_center) #recenter
 
 		#boundary behavior
@@ -88,12 +96,12 @@ class FullSprite (pygame.sprite.Sprite):
 	#end def update()
 
 	#check whether at bounds
-	def bounds_check():
+	def bounds_check (self):
 		hit_bounds = (False, False)
 
 		#for each dimension
 		for i in range(2):
-			if self.rect.center < 0 or self.rect.center[i] > scene.screen_size[i]:
+			if self.rect.center < 0 or self.rect.center[i] > self.scene.screen_size[i]:
 				hit_bounds[i] = True
 
 		#end for each dimesion
@@ -103,7 +111,7 @@ class FullSprite (pygame.sprite.Sprite):
 	#end def bounds_check()
 
 	#boundary behavior
-	def boundary():
+	def boundary (self):
 		pass
 
 #end class FullSprite
