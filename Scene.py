@@ -13,8 +13,8 @@ class Scene (object):
 	#initialize game engine
 	def __init__ (self,
 
-			#full background image
-			image = "",
+			#background image
+			background = "",
 
 			#screensize
 			screen_size = (640, 480),
@@ -34,12 +34,12 @@ class Scene (object):
 		self.screen = pygame.display.set_mode(screen_size)
 
 		#initialize background
-		if image == "":
+		if background == "":
 			print ("No image")	
 			self.background = pygame.Surface (screen_size)
 			self.background.fill ((0, 0, 0))
 		else:
-			self.background = image
+			self.background = background
 
 	#end __init__()
 
@@ -48,6 +48,7 @@ class Scene (object):
 		self.screen.blit (self.background, (0, 0))
 		self.clock = pygame.time.Clock()
 		self.go = True
+		self.game_over = False
 		while self.go:
 			self.__mainLoop()
 
@@ -61,17 +62,20 @@ class Scene (object):
 				self.go = False
 			self.handle_event (event)
 
-		#update
-		self.update()
+		if (self.game_over == False):
+			#abstract update
+			self.update()
 
-		#update Sprites
-		for group in self.groups:
-			group.clear(self.screen, self.background)
-			group.update()
-			group.draw (self.screen)
+			#update Sprites
+			for group in self.groups:
+				group.clear(self.screen, self.background)
+				group.update()
+				group.draw (self.screen)
 
-		#draw screen to display
-		pygame.display.flip()
+			#draw screen to display
+			pygame.display.flip()
+
+		#end if game_over == False
 
 	#end def __mainLoop()
 
@@ -104,6 +108,10 @@ class Scene (object):
 										#add the collision to the list
 										collisions.append ((sprite, other_sprite))
 		#end for each group
+
+		for collision in collisions:
+			for entity in collision:
+				print (entity)
 
 		return collisions
 	

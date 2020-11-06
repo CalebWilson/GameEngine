@@ -13,8 +13,8 @@ class ScrollScene (Scene):
 	#initialize game engine
 	def __init__ (self,
 
-			#full background image
-			image = "",
+			#background image
+			background = "",
 
 			#screen
 			screen_size = (640, 480),
@@ -33,7 +33,7 @@ class ScrollScene (Scene):
 			fs_groups = []
 	):
 		#initialize parent class
-		super().__init__(image, screen_size, groups)
+		super().__init__(background , screen_size, groups)
 
 		#how close the focus sprite can get to the edge of the screen
 		focus_distance = (screen_size[0] // 5, screen_size[1] // 5)
@@ -114,7 +114,8 @@ class ScrollScene (Scene):
 
 	#pass event handling to focus sprite
 	def handle_event (self, event):
-		self.focus_sprite.handle_event (event)
+		if self.game_over == False:
+			self.focus_sprite.handle_event (event)
 
 	#end def handle_event()
 

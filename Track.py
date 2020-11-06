@@ -15,8 +15,8 @@ class Track (ScrollScene):
 	#initialize game engine
 	def __init__ (self,
 
-			#full background image
-			image = "",
+			#background
+			background = "",
 
 			#screen
 			screen_size = (320, 320),
@@ -39,8 +39,9 @@ class Track (ScrollScene):
 	):
 
 		#initialize image
-		self.image = pygame.Surface(screen_size)
-		self.image.fill ((0, 255, 0)) #green
+		if background == "":
+			background = pygame.Surface(screen_size)
+			background.fill ((56, 150, 0)) #green
 
 		self.groups = groups
 
@@ -51,7 +52,7 @@ class Track (ScrollScene):
 
 		#initialize focus sprite in parent class
 		super().__init__ (
-			image,
+			background,
 			screen_size,
 			groups,
 
@@ -64,6 +65,9 @@ class Track (ScrollScene):
 			fs_ang_acc,
 			fs_groups
 		)
+
+		#initialize font
+		self.font = pygame.font.SysFont(None, 24)
 
 	#end __init__()
 
@@ -104,11 +108,10 @@ class Track (ScrollScene):
 			self.collide (collision)
 
 		#write controls to screen
-		font = pygame.font.SysFont(None, 24)
-		k_text = font.render("K: Accelerate", True, (255, 255, 255))
-		j_text = font.render("J: Decelerate", True, (255, 255, 255))
-		d_text = font.render("D: Steer Left", True, (255, 255, 255))
-		f_text = font.render("K: Steer Right", True, (255, 255, 255))
+		k_text = self.font.render("K: Accelerate", True, (255, 255, 255))
+		j_text = self.font.render("J: Decelerate", True, (255, 255, 255))
+		d_text = self.font.render("D: Steer Left", True, (255, 255, 255))
+		f_text = self.font.render("K: Steer Right", True, (255, 255, 255))
 		self.screen.blit(k_text, (0,  0))
 		self.screen.blit(j_text, (0, 20))
 		self.screen.blit(d_text, (0, 40))
@@ -118,9 +121,11 @@ class Track (ScrollScene):
 
 	#if the car hits the wall
 	def collide (self, collision):
+		self.game_over = True
 		#kill the car
 		collision[0].die()
+		self.screen.blit (self.font.render ("YOU CRASHED", True, (0, 0, 0)), (self.screen.get_rect().centerx, self.screen.get_rect().centery))
 
 	#end def collide()
 
-#end class Scene
+#end class Track

@@ -90,11 +90,22 @@ class Car (ScrollSprite):
 
 		#centripetal acceleration = v^2 / r, perpendicular to direction of motion
 		centrip_acc = pygame.math.Vector2()
+
+		#check whether car is moving forwards or backwards
+		direction = pygame.math.Vector2()
+		direction.from_polar ((1, self.ang_pos))
+		direction = direction.dot (self.velocity)
+		#direction = (1 if direction > 0 else -1)
+		if direction > 0:
+			direction = 1
+		else:
+			direction = -1
+
 		centrip_acc.from_polar (
 			(self.velocity.magnitude_squared()
 				/ self.turn_rad
 				* (self.right - self.left),  #magnitude
-			self.ang_pos + 90) #direction
+			self.ang_pos + (90 * direction))
 		)
 
 		#combine tangential and centripetal acceleration
@@ -106,15 +117,6 @@ class Car (ScrollSprite):
 		#restrict speed
 		if self.velocity.magnitude() > self.max_speed:
 			self.velocity.scale_to_length (self.max_speed)
-
-		print ("position:", self.position)
-		print ("velocity:", self.velocity)
-		print ("tan_acc:", tangent_acc)
-		print ("centrip_acc:", centrip_acc)
-		print ("acceleration:", self.acceleration)
-		print ("ang_pos:", self.ang_pos)
-		print ("ang_vel:", self.ang_vel)
-		print ("ang_acc:", self.ang_acc)
 
 	#end def up update()
 
@@ -160,7 +162,10 @@ class Car (ScrollSprite):
 
 	#destroy car when it hits something
 	def die (self):
-#		self.alive = False
-		pass
+		#set velocity and acceleration to 0
+		self.acceleration.update (0, 0)
+		self.velocity.update (0, 0)
+
+		self.alive = False
 
 #end class Car
